@@ -15,7 +15,7 @@ func main() {
 	defer file.Close()
 
 	scanner := bufio.NewScanner(file)
-	// Scanner.scan() returns an enumeration of lines
+	// Scan() until end of file
 	for scanner.Scan() {
 		// One line of text
 		fmt.Println(scanner.Text())

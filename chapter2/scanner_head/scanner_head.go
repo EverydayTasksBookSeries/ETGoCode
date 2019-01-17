@@ -19,7 +19,7 @@ func main() {
 	scanner := bufio.NewScanner(file)
 
 	n := 0
-	// Scanner.scan() returns an enumeration of lines
+	// Scan() until end of file
 	for scanner.Scan() {
 		n++
 		// if current line number is greater than N, quit
