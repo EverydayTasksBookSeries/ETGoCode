@@ -7,7 +7,7 @@ import (
 
 func main() {
 	// 打开文件
-	f, err := os.Open("E:/a.txt")
+	f, err := os.Open("D:/sonnet18.txt")
 	// 错误处理
 	if err != nil {
 		panic(err)
