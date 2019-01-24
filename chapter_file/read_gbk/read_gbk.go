@@ -10,24 +10,19 @@ import (
 )
 
 func main() {
-	readGBK("E:/gbk_sample.txt")
-}
-
-// Read UTF-8 from a GBK encoded file.
-func readGBK(filename string) {
-	f, err := os.Open(filename)
+	// 打开文件
+	f, err := os.Open("D:/guanju.gbk.txt")
 	if err != nil {
 		panic(err)
 	}
 	defer f.Close()
 
-	// Use GBK encoding
+	// 使用GBK编码
 	enc := simplifiedchinese.GBK
-	// make a transform reader with GBK decoder
+	// 建立一个GBK编码的转换器Reader
 	r := transform.NewReader(f, enc.NewDecoder())
 
-	// Read converted UTF-8 from `r` as needed.
-	// As an example we'll read line-by-line showing what was read:
+	// 经过转换之后，就可以当做普通UTF-8文本来进行按行读取了
 	sc := bufio.NewScanner(r)
 	for sc.Scan() {
 		fmt.Printf("Read line: %s\n", sc.Bytes())
@@ -35,5 +30,4 @@ func readGBK(filename string) {
 	if err = sc.Err(); err != nil {
 		panic(err)
 	}
-
 }
