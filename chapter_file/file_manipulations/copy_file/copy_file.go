@@ -29,9 +29,4 @@ func main() {
 		panic(fmt.Sprintf("Writing to output file failed: %v", err))
 	}
 
-	// 复制成功，删除源文件
-	err = os.Remove(src)
-	if err != nil {
-		panic(fmt.Sprintf("Failed removing original file: %v", err))
-	}
 }
