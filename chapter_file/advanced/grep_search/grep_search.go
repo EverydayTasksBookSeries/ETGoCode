@@ -2,9 +2,10 @@ package main
 
 import (
 	"bufio"
-	"bytes"
 	"fmt"
 	"os"
+	"path/filepath"
+	"regexp"
 )
 
 func grepFile(file string, pattern string) (int64, error) {
@@ -15,33 +16,36 @@ func grepFile(file string, pattern string) (int64, error) {
 	}
 	defer f.Close()
 	scanner := bufio.NewScanner(f)
-	for scanner.Scan() {
-		if bytes.Contains(scanner.Bytes(), []byte(pattern)) {
-			patCount++
-			fmt.Println(scanner.Text())
-		}
-	}
-	/* // 如果想使用正则，则可以这么做
-	r, _ := regexp.Compile(pattern)
+	r, _ := regexp.Compile("M.*Bennet")
 	for scanner.Scan() {
 		if r.MatchString(scanner.Text()) {
 			patCount++
-			fmt.Println(scanner.Text())
+			fmt.Println(file, ":", scanner.Text())
 		}
 	}
-	*/
 	if err := scanner.Err(); err != nil {
 		return patCount, err
 	}
 	return patCount, nil
 }
 
+func grepSearch(dir string, pattern string) int64 {
+	var total int64
+	filepath.Walk(dir, func(path string, f os.FileInfo, _ error) error {
+		if !f.IsDir() {
+			count, err := grepFile(path, pattern)
+			if err != nil {
+				fmt.Println(err)
+			}
+			total = total + count
+		}
+		return nil
+	})
+	return total
+}
+
 func main() {
 	pat := "said"
-	total, err := grepFile("E:/books/gutenberg/pride_and_prejudice.txt", pat)
-	if err != nil {
-		panic(err)
-	}
+	total := grepSearch("E:/books/gutenberg/", pat)
 	fmt.Printf("\nFound %d lines containing pattern %v\n", total, pat)
-
 }
