@@ -34,4 +34,5 @@ func main() {
 		panic(err)
 	}
 	fmt.Printf("\nFound %d lines containing pattern %v\n", total, pat)
+
 }
